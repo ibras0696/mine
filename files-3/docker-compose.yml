@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  mc:
+    image: itzg/minecraft-server:java17
+    container_name: mc
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+      TYPE: "FORGE"
+      VERSION: "1.20.1"
+      # При необходимости закрепи конкретный билд Forge, например:
+      # FORGE_VERSION: "47.3.0"
+
+      # Ресурсы и параметры под 5 игроков
+      MEMORY: "${MEMORY:-4G}"
+      MAX_PLAYERS: "${MAX_PLAYERS:-5}"
+      VIEW_DISTANCE: "${VIEW_DISTANCE:-8}"
+      SIMULATION_DISTANCE: "${SIMULATION_DISTANCE:-8}"
+
+      # Имя мира. Если папка уже существует в ./data — будет использована она
+      LEVEL: "${LEVEL:-my_world}"
+
+      # Режим и сложность (при необходимости меняй в .env)
+      MODE: "${MODE:-survival}"
+      DIFFICULTY: "${DIFFICULTY:-normal}"
+
+      # Безопасность: оставляй TRUE для лицензионных аккаунтов
+      ONLINE_MODE: "${ONLINE_MODE:-TRUE}"
+
+      # Whitelist/OPS (по желанию)
+      # ENABLE_WHITELIST: "true"
+      # ENFORCE_WHITELIST: "true"
+      # WHITELIST: "Nick1,Nick2"
+      # OPS: "YourNick"
+
+      # RCON по умолчанию выключен, т.к. бэкапы не нужны
+      ENABLE_RCON: "${ENABLE_RCON:-false}"
+
+      # Часовой пояс
+      TZ: "${TIMEZONE:-Europe/Moscow}"
+
+      # Доп. JVM-флаги (опционально). Для Forge обычно не требуется
+      # USE_AIKAR_FLAGS: "true"
+
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+    tty: true
+    stdin_open: true

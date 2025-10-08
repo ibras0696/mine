@@ -1,5 +1,0 @@
-minecraft
-    ├─ overworld
-    ├─ tournament
-    ├─ the_end
-    └─ spawn

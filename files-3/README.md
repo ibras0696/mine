@@ -61,12 +61,25 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable --now docker
 
 # Разрешить текущему пользователю работать с docker без sudo
 sudo usermod -aG docker $USER
 newgrp docker
 docker --version
 docker compose version
+```
+
+Если команды `docker` или `docker compose` не находятся:
+
+```bash
+which docker
+which docker-compose
+```
+
+- При отсутствии бинаря повторите установку пакетов `docker-ce` и `docker-compose-plugin`.
+- Убедитесь, что вы заново вошли в систему (logout/login) после добавления в группу `docker`.
+- На старых системах может потребоваться пакет `docker-compose` (старая версия). Рекомендуется использовать plugin.
 ```
 
 ---

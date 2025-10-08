@@ -25,9 +25,15 @@ services:
       # Режим и сложность (при необходимости меняй в .env)
       MODE: "${MODE:-survival}"
       DIFFICULTY: "${DIFFICULTY:-normal}"
+      FORCE_GAMEMODE: "${FORCE_GAMEMODE:-false}"
 
       # Безопасность: оставляй TRUE для лицензионных аккаунтов
       ONLINE_MODE: "${ONLINE_MODE:-TRUE}"
+      ALLOW_CHEATS: "${ALLOW_CHEATS:-false}"
+      CREATE_CONSOLE_IN_PIPE: "${CREATE_CONSOLE_IN_PIPE:-false}"
+      ENABLE_WHITELIST: "${ENABLE_WHITELIST:-false}"
+      ENFORCE_WHITELIST: "${ENFORCE_WHITELIST:-false}"
+      WHITELIST: "${WHITELIST:-}"
 
       # Whitelist/OPS (по желанию)
       # ENABLE_WHITELIST: "true"

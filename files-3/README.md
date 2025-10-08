@@ -138,6 +138,7 @@ nano .env
 - `LEVEL` — имя папки мира (по умолчанию `my_world`).
 - `MAX_PLAYERS=5` — как просили.
 - `ONLINE_MODE=TRUE` — оставь TRUE для лицензионных аккаунтов.
+  - Для оффлайн-лаунчеров поставь `FALSE`, но включи whitelist, иначе любой сможет зайти.
 - `VIEW_DISTANCE` и `SIMULATION_DISTANCE` — 8 для снижения нагрузки.
 
 ---
@@ -246,5 +247,6 @@ sudo ufw status
   - Убедись, что `LEVEL` в .env совпадает с именем папки мира (Linux — чувствителен к регистру).
 - Не запускается с 4G:
   - Подними `MEMORY` до `6G` и дай процессору 2 vCPU+.
+  - Ошибка `Native memory allocation (mmap)` означает, что хосту не хватает RAM: снизь `MEMORY` в `.env` (например, до `3G`/`2G`) или добавь swap (`sudo fallocate -l 2G /swapfile && sudo chmod 600 /swapfile && sudo mkswap /swapfile && sudo swapon /swapfile`).
 
 Удачи! Если хочешь — могу подставить твое имя мира/список модов в .env и прислать готовый архив репозитория.

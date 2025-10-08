@@ -21,6 +21,7 @@
 | `DIFFICULTY` | Сложность (`peaceful`, `easy`, `normal`, `hard`) | Для уже созданного мира менять через консоль или `server.properties` |
 | `FORCE_GAMEMODE` | Принудительно переключает игроков в `MODE` при входе (`true/false`) | Используй `true`, если мир создан в другом режиме |
 | `ALLOW_CHEATS` | Разрешить команды оператора (`true/false`) | При `true` операторы могут использовать `/gamemode`, `/give` и т.д. |
+| `CREATE_CONSOLE_IN_PIPE` | Включить именованный pipe для консольных команд | Нужно `true`, если используешь `mc-send-to-console` без RCON |
 | `MAX_PLAYERS` | Лимит игроков | При использовании whitelist можно понижать |
 | `VIEW_DISTANCE` | Радиус загрузки чанков | 8–10 оптимально для слабых VPS |
 | `SIMULATION_DISTANCE` | Радиус симуляции | Мин. значение снижает нагрузку |

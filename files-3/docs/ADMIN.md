@@ -24,6 +24,8 @@ make up
 
 При запуске в логах появится строка `allow-cheats=true`.
 
+> Если планируешь использовать `mc-send-to-console`, добавь в `.env` ещё `CREATE_CONSOLE_IN_PIPE=true` — тогда именованный pipe создаётся автоматически, и команды будут выполняться без RCON.
+
 ### Через `server.properties`
 
 Если нужно изменить параметр вручную, открой `data/server.properties` и установи:

@@ -5,6 +5,7 @@
 ## 1. Предварительные условия
 
 - Linux-сервер (Ubuntu 22.04 рекомендована) c установленными Docker и Docker Compose plugin.
+- GNU Make (для команд `make`; на Ubuntu ставится `sudo apt install -y make`).
 - Права пользователя на работу с Docker без `sudo` (см. раздел подготовки VPS в `README.md`).
 - Свободные ресурсы: минимум 2 vCPU, 4–6 ГБ RAM и 20 ГБ SSD.
 

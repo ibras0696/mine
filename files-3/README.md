@@ -31,6 +31,7 @@
   - Если модов больше или сборка тяжелая — подними до 6–8 ГБ.
 - ОС: Ubuntu 22.04 LTS (рекомендовано).
 - Установленный Docker и Docker Compose (см. ниже).
+- Установленный GNU Make (используется для автоматизации запуска).
 - На клиентах — тот же Forge 1.20.1 и те же версии модов.
 
 ---
@@ -50,7 +51,7 @@ sudo ufw enable
 sudo ufw status
 
 # Установка Docker и Compose
-sudo apt install -y ca-certificates curl gnupg
+sudo apt install -y ca-certificates curl gnupg make
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
   sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg

@@ -19,6 +19,7 @@
 | `LEVEL` | Имя папки мира в `data/` | Должно совпадать с папкой, где лежит `level.dat` |
 | `MODE` | Режим игры (`survival`, `creative`, `adventure`, `spectator`) | Меняет тип игры при генерации мира |
 | `DIFFICULTY` | Сложность (`peaceful`, `easy`, `normal`, `hard`) | Для уже созданного мира менять через консоль или `server.properties` |
+| `FORCE_GAMEMODE` | Принудительно переключает игроков в `MODE` при входе (`true/false`) | Используй `true`, если мир создан в другом режиме |
 | `ALLOW_CHEATS` | Разрешить команды оператора (`true/false`) | При `true` операторы могут использовать `/gamemode`, `/give` и т.д. |
 | `MAX_PLAYERS` | Лимит игроков | При использовании whitelist можно понижать |
 | `VIEW_DISTANCE` | Радиус загрузки чанков | 8–10 оптимально для слабых VPS |

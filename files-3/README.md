@@ -43,33 +43,53 @@
 Подключись по SSH и выполни:
 
 ```bash
-# Обновления и UFW
-sudo apt update && sudo apt -y upgrade
+#!/bin/bash
+set -e  # остановить выполнение при ошибке
+
+echo "=== 🔄 Обновление системы ==="
+sudo apt update -y && sudo apt upgrade -y
+
+echo "=== 🔥 Настройка Firewall (UFW) ==="
 sudo apt install -y ufw
+sudo ufw --force enable
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw allow 22/tcp       # оставить SSH доступ
-sudo ufw enable
-sudo ufw status
+sudo ufw allow 22/tcp
+sudo ufw status verbose
 
-# Установка Docker и Compose
+echo "=== 🧰 Установка зависимостей (ca-certificates, curl, gnupg, make) ==="
 sudo apt install -y ca-certificates curl gnupg make
+
+echo "=== 🐳 Настройка репозитория Docker ==="
 sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-  sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-  https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-sudo apt update
+if [ ! -f /etc/apt/keyrings/docker.gpg ]; then
+  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+    sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+fi
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
+https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+echo "=== 🔁 Обновление списка пакетов ==="
+sudo apt update -y
+
+echo "=== 🐋 Установка Docker Engine и Compose ==="
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+echo "=== ⚙️ Включение и запуск Docker ==="
 sudo systemctl enable --now docker
 
-# Разрешить текущему пользователю работать с docker без sudo
+echo "=== 👤 Добавление пользователя в группу docker ==="
 sudo usermod -aG docker $USER
-newgrp docker
-docker --version
-docker compose version
+
+echo "=== ✅ Проверка установки ==="
+docker --version || echo "⚠️ Docker не найден. Попробуй перелогиниться."
+docker compose version || echo "⚠️ Docker Compose не найден."
+
+echo "=== 🚀 Всё готово! Если docker не работает без sudo, выйди из системы и войди снова. ==="
+
 ```
 
 Если команды `docker` или `docker compose` не находятся:

@@ -1,53 +1,27 @@
-version: "3.9"
+﻿version: "3.9"
 
 services:
   mc:
-    image: itzg/minecraft-server:java17
     container_name: mc
+    image: mc-forge:1.20.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
     ports:
-      - "25565:25565"
-    environment:
-      - EULA=TRUE
-      - TYPE=FORGE
-      - VERSION=${VERSION:-1.20.1}
-      # При необходимости закрепи конкретный билд Forge, например:
-      # - FORGE_VERSION=${FORGE_VERSION:-47.3.0}
-
-      # Ресурсы и параметры под 5 игроков
-      - MEMORY=${MEMORY:-4G}
-      - MAX_PLAYERS=${MAX_PLAYERS:-5}
-      - VIEW_DISTANCE=${VIEW_DISTANCE:-8}
-      - SIMULATION_DISTANCE=${SIMULATION_DISTANCE:-8}
-
-      # Имя мира. Если папка уже существует в ./data — будет использована она
-      - LEVEL=${LEVEL:-my_world}
-
-      # Режим и сложность (меняем через .env)
-      - MODE=${MODE:-survival}
-      - DIFFICULTY=${DIFFICULTY:-normal}
-      - FORCE_GAMEMODE=${FORCE_GAMEMODE:-false}
-
-      # Безопасность / whitelist
-      - ONLINE_MODE=${ONLINE_MODE:-TRUE}
-      - ALLOW_CHEATS=${ALLOW_CHEATS:-false}
-      - CREATE_CONSOLE_IN_PIPE=${CREATE_CONSOLE_IN_PIPE:-false}
-      - ENABLE_WHITELIST=${ENABLE_WHITELIST:-false}
-      - ENFORCE_WHITELIST=${ENFORCE_WHITELIST:-false}
-      - WHITELIST=${WHITELIST:-}
-      - OPS=${OPS:-}
-
-      # RCON / консоль
-      - ENABLE_RCON=${ENABLE_RCON:-false}
-      - RCON_PASSWORD=${RCON_PASSWORD:-}
-      - RCON_PORT=${RCON_PORT:-25575}
-
-      # Часовой пояс и JVM-флаги
-      - TIMEZONE=${TIMEZONE:-Europe/Moscow}
-      - USE_AIKAR_FLAGS=${USE_AIKAR_FLAGS:-false}
-      - RADMIN_VPN_IP=${RADMIN_VPN_IP:-}
-
+      - "${PUBLISHED_PORT:-25565}:25565"
     volumes:
       - ./data:/data
+    environment:
+      EULA: "TRUE"
+      TYPE: "FORGE"
     restart: unless-stopped
+    stop_grace_period: 2m
     tty: true
     stdin_open: true
+    healthcheck:
+      test: ["CMD", "mc-health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

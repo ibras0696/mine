@@ -1,27 +1,35 @@
-PROJECT_NAME ?= mc-forge
+﻿PROJECT_NAME ?= mc-forge
 DOCKER_COMPOSE ?= docker compose
 SERVICE ?= mc
 ENV_FILE ?= .env
+DATA_DIR ?= data
+CMD ?=
 
-.PHONY: help setup up down restart stop start logs tail pull status shell
+.PHONY: help configure doctor build up down restart stop start logs status pull console shell clean
 
 help:
-	@echo "Available targets:"
-	@echo "  make setup   - copy .env.example to .env (if missing) and create data directories"
-	@echo "  make up       - start the Minecraft server stack in detached mode"
-	@echo "  make down     - stop and remove the stack"
-	@echo "  make restart  - restart the Minecraft server container"
-	@echo "  make stop     - stop the stack without removing volumes"
-	@echo "  make start    - start an already created stack"
-	@echo "  make logs     - follow server logs"
-	@echo "  make pull     - pull freshest container image"
-	@echo "  make status   - show container status"
+	@echo "Команды:"
+	@echo "  make configure        - подготовить каталоги data/* и .env"
+	@echo "  make doctor           - проверить наличие docker/make"
+	@echo "  make build            - собрать образ mc-forge"
+	@echo "  make up / make down   - запустить или остановить стек"
+	@echo "  make logs             - смотреть логи"
+	@echo "  make console CMD=\"say hi\" - отправить команду на сервер"
 
-setup:
-	@mkdir -p data/my_world data/mods data/config data/logs
-	@if [ ! -f $(ENV_FILE) ]; then cp .env.example $(ENV_FILE); fi
-	@touch data/my_world/.gitkeep data/mods/.gitkeep data/config/.gitkeep data/logs/.gitkeep
-	@echo "Setup complete. Review $(ENV_FILE) before running the server."
+configure:
+	@mkdir -p $(DATA_DIR)/my_world $(DATA_DIR)/mods $(DATA_DIR)/config $(DATA_DIR)/logs
+	@if [ ! -f $(ENV_FILE) ]; then cp .env.example $(ENV_FILE); echo "Создан $(ENV_FILE)."; fi
+	@touch $(DATA_DIR)/my_world/.gitkeep $(DATA_DIR)/mods/.gitkeep $(DATA_DIR)/config/.gitkeep $(DATA_DIR)/logs/.gitkeep
+	@echo "Каталоги и $(ENV_FILE) готовы."
+
+doctor:
+	@command -v docker >/dev/null 2>&1 || (echo "docker не установлен" && exit 1)
+	@$(DOCKER_COMPOSE) version >/dev/null 2>&1 || (echo "docker compose не найден" && exit 1)
+	@command -v make >/dev/null 2>&1 || (echo "make не найден" && exit 1)
+	@echo "Все зависимости на месте."
+
+build:
+	$(DOCKER_COMPOSE) build --pull
 
 up:
 	$(DOCKER_COMPOSE) up -d
@@ -46,3 +54,13 @@ logs:
 
 status:
 	$(DOCKER_COMPOSE) ps
+
+console:
+	@if [ -z "$(CMD)" ]; then echo "Укажи команду: make console CMD=\"say hi\"" && exit 1; fi
+	$(DOCKER_COMPOSE) exec $(SERVICE) mc-send-to-console "$(CMD)"
+
+shell:
+	$(DOCKER_COMPOSE) exec -it $(SERVICE) bash
+
+clean:
+	$(DOCKER_COMPOSE) down -v

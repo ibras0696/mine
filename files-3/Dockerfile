@@ -16,4 +16,5 @@ ENV EULA=TRUE \
 # Внутренние вспомогательные сценарии.
 COPY scripts/container/check-data.sh /opt/mc-tools/check-data.sh
 COPY scripts/container/console-wrapper.sh /opt/mc-tools/console-wrapper.sh
-RUN chmod +x /opt/mc-tools/check-data.sh /opt/mc-tools/console-wrapper.sh
+COPY scripts/container/sync-access.sh /start.d/10-sync-access.sh
+RUN chmod +x /opt/mc-tools/check-data.sh /opt/mc-tools/console-wrapper.sh /start.d/10-sync-access.sh

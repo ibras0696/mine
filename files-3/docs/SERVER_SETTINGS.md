@@ -38,6 +38,8 @@
 | `ENFORCE_WHITELIST` | не пускает никого вне whitelist |
 | `WHITELIST` | список ников через запятую |
 | `OPS` | игроки с правами оператора (через запятую) |
+| `SYNC_OPS_FROM_ENV` | если `true`, при старте сервер пересоздаёт `ops.json` из `OPS` |
+| `SYNC_WHITELIST_FROM_ENV` | если `true`, при старте пересоздаётся `whitelist.json` из `WHITELIST` |
 | `CREATE_CONSOLE_IN_PIPE` | включает именованный pipe для `mc-send-to-console` |
 | `ENABLE_RCON`, `RCON_PASSWORD` | доступ по RCON (по умолчанию выключен) |
 

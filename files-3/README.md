@@ -76,6 +76,7 @@ files-3/
 | `MODE`, `DIFFICULTY`, `ALLOW_CHEATS`, `FORCE_GAMEMODE` | базовые правила игры |
 | `MAX_PLAYERS`, `VIEW_DISTANCE`, `SIMULATION_DISTANCE` | нагрузка и ограничения сервера |
 | `ONLINE_MODE`, `WHITELIST`, `OPS` | безопасность, список допущенных игроков и операторов |
+| `SYNC_OPS_FROM_ENV`, `SYNC_WHITELIST_FROM_ENV` | если `true`, контейнер очищает `ops.json`/`whitelist.json` и пересоздаёт их из `.env` при каждом запуске |
 | `PUBLISHED_PORT` | внешний порт, который прокинет Docker |
 | `TIMEZONE`, `RADMIN_VPN_IP` | служебные и вспомогательные параметры |
 

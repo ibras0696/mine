@@ -8,6 +8,7 @@
    ```
 3. Чтобы снять права, отправь `"deop Ник"`.
 4. Альтернатива — прописать список в `ops.json` внутри `data/` и перезапустить сервер.
+5. Если хочешь управлять правами только через `.env`, оставь ники в `OPS` и убедись, что `SYNC_OPS_FROM_ENV=true` — тогда при каждом запуске текущее `ops.json` будет пересоздаваться автоматически.
 
 ## Работа с whitelist
 - Включить белый список: в `.env` установи `ENABLE_WHITELIST=true`, `ENFORCE_WHITELIST=true` и перечисли игроков в `WHITELIST=ник1,ник2`.
@@ -17,6 +18,7 @@
   scripts/mc-console.sh "whitelist remove Ник"
   scripts/mc-console.sh "whitelist reload"
   ```
+- Чтобы `.env` оставался источником правды, используй `SYNC_WHITELIST_FROM_ENV=true` — сервер будет пересоздавать `whitelist.json` при каждой перезагрузке, заменяя ручные изменения.
 
 ## Команды через консоль
 - `scripts/mc-console.sh "time set day"`

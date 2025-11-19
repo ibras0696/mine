@@ -26,6 +26,7 @@
 3. После повторного входа в SSH настроить каталог данных и `.env`:
    ```bash
    make configure        # создаст data/ и .env (если его нет)
+   make doctor           # проверит docker/make перед сборкой
    nano .env             # отредактируй значения под себя
    ```
 4. Собрать образ и поднять стек:
@@ -33,6 +34,11 @@
    make build
    make up
    make logs             # убедись, что сервер инициализировался и слушает порт
+   ```
+5. Разрешить входящие подключения (если используется UFW):
+   ```bash
+   sudo ufw allow 25565/tcp
+   sudo ufw reload
    ```
 5. Подключиться к серверу по IP VPS и порту из `.env` (по умолчанию 25565).
 
@@ -48,6 +54,12 @@
    - `LEVEL` — имя мира (будет создан в `data/my_world`).
    - `MODE`, `DIFFICULTY`, `MAX_PLAYERS` — геймплейные настройки.
    - `ONLINE_MODE` и `WHITELIST` — безопасность и whitelisted режим.
+   Например:
+   ```
+   SERVER_NAME=MirageCraft
+   LEVEL=Mirage
+   MODE=survival
+   ```
 4. **Запуск** — `make build` (первичная сборка образа) и `make up`. Контейнер сам подтянет моды из `data/mods` и конфиги из `data/config`.
 5. **Проверка** — `make status` и `make logs`. При необходимости используй `scripts/mc-console.sh "time set day"` для отправки команд.
 
